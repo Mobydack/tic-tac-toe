@@ -1,12 +1,12 @@
-struct Plane {
-    data: [u8; 9],
+struct Plane<T> {
+    data: [T; 9],
     line_length: u8,
 }
 
-impl Plane {
-    fn new() -> Plane {
+impl<T: Copy> Plane<T> {
+    fn new(fill_value: T) -> Plane<T> {
         Plane {
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            data: [fill_value; 9],
             line_length: 3,
         }
     }
@@ -25,7 +25,7 @@ impl Plane {
         *value == 0 || *value > self.line_length
     }
 
-    fn set_cell(&mut self, line: &u8, column: &u8, value: u8) {
+    fn set_cell(&mut self, line: &u8, column: &u8, value: T) {
         let index = self.get_index(line, column);
 
         self.data[index as usize] = value;
@@ -33,9 +33,9 @@ impl Plane {
 }
 
 fn main() {
-    let mut plane = Plane::new();
+    let mut plane: Plane<char> = Plane::new(' ');
 
-    plane.set_cell(&10, &1, 3);
+    plane.set_cell(&1, &1, 'x');
 
     println!("{:#?}", plane.data);
 }
