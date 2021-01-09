@@ -1,30 +1,32 @@
 struct Plane {
     data: [u8; 9],
+    line_length: u8,
 }
 
 impl Plane {
     fn new() -> Plane {
         Plane {
             data: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            line_length: 3,
         }
     }
 
-    fn get_index(line: &u8, column: &u8) -> u8 {
-        if Plane::is_allowed_line_or_column(line) {
+    fn get_index(&self, line: &u8, column: &u8) -> u8 {
+        if self.is_allowed_line_or_column(line) {
             panic!("Invalid line value {}", *line);
-        } else if Plane::is_allowed_line_or_column(column) {
+        } else if self.is_allowed_line_or_column(column) {
             panic!("Invalid line value {}", *column);
         }
 
-        return 3 * (*line - 1) + column - 1;
+        return self.line_length * (*line - 1) + column - 1;
     }
 
-    fn is_allowed_line_or_column(value: &u8) -> bool {
-        *value == 0 || *value > 3
+    fn is_allowed_line_or_column(&self, value: &u8) -> bool {
+        *value == 0 || *value > self.line_length
     }
 
     fn set_cell(&mut self, line: &u8, column: &u8, value: u8) {
-        let index = Plane::get_index(line, column);
+        let index = self.get_index(line, column);
 
         self.data[index as usize] = value;
     }
