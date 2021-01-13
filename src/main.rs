@@ -1,12 +1,8 @@
 mod plane;
 
-fn main() {
-    let mut plane = plane::create_plane::<char>(' ');
+use plane::Plane;
 
-    plane.set_cell(&1, &1, 'x');
-
-    println!("{:#?}", plane.data);
-}
+fn main() {}
 /*
 
 [   0  1  2
